@@ -3,6 +3,12 @@ from sqlalchemy.orm import Session
 from datetime import datetime, timedelta
 import re
 
+# Dicionário para armazenar o estado das conversas
+conversas = {}
+
+# Importa configurações
+from config import get_barbeiros, get_horarios_disponiveis, get_mensagem, VALIDACAO
+
 # Lista de barbeiros disponíveis
 barbeiros = get_barbeiros()
 
