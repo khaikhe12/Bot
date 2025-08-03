@@ -18,10 +18,12 @@ Base.metadata.create_all(bind=engine)
 # Instancia o app FastAPI
 app = FastAPI(title="Chatbot Barbearia", version="1.0.0")
 
+
 # Modelo Pydantic para validação de entrada
 class MensagemRequest(BaseModel):
     mensagem: str
     user_id: str
+
 
 # Função para obter a sessão com o banco
 def get_db():
@@ -31,6 +33,7 @@ def get_db():
     finally:
         db.close()
 
+
 # Endpoint para receber mensagens do cliente (via POST)
 @app.post("/mensagem")
 async def responder_mensagem(request: MensagemRequest, db: Session = Depends(get_db)):
@@ -38,72 +41,78 @@ async def responder_mensagem(request: MensagemRequest, db: Session = Depends(get
         # Valida se a mensagem não está vazia
         if not request.mensagem.strip():
             raise HTTPException(status_code=400, detail="Mensagem não pode estar vazia")
-        
+
         # Valida se o user_id não está vazio
         if not request.user_id.strip():
             raise HTTPException(status_code=400, detail="User ID não pode estar vazio")
-        
+
         # Processa a mensagem usando a lógica do chatbot
         resposta = processar_mensagem(request.mensagem, db, request.user_id)
-        
+
         # Retorna a resposta gerada
         return {"resposta": resposta, "status": "success"}
-    
+
     except Exception as e:
         # Log do erro para debug
         print(f"Erro ao processar mensagem: {str(e)}")
         raise HTTPException(status_code=500, detail="Erro interno do servidor")
+
 
 # Endpoint para verificar status da API
 @app.get("/")
 async def root():
     return {"message": "Chatbot Barbearia API está funcionando!", "status": "online"}
 
+
 # Endpoint para obter informações de um cliente
 @app.get("/cliente/{numero}")
 async def obter_cliente(numero: str, db: Session = Depends(get_db)):
     try:
         from chatbot import limpar_numero
+
         numero_limpo = limpar_numero(numero)
-        
+
         cliente = db.query(Cliente).filter_by(numero=numero_limpo).first()
-        
+
         if not cliente:
             raise HTTPException(status_code=404, detail="Cliente não encontrado")
-        
+
         # Busca agendamentos do cliente
         agendamentos = db.query(Agendamento).filter_by(cliente_id=cliente.id).all()
-        
+
         return {
             "cliente": {
                 "id": cliente.id,
                 "nome": cliente.nome,
                 "numero": cliente.numero,
-                "criado_em": cliente.criado_em.isoformat() if cliente.criado_em else None
+                "criado_em": (
+                    cliente.criado_em.isoformat() if cliente.criado_em else None
+                ),
             },
             "agendamentos": [
                 {
                     "id": a.id,
                     "horario": a.horario,
                     "barbeiro": a.barbeiro,
-                    "criado_em": a.criado_em.isoformat() if a.criado_em else None
+                    "criado_em": a.criado_em.isoformat() if a.criado_em else None,
                 }
                 for a in agendamentos
-            ]
+            ],
         }
-    
+
     except HTTPException:
         raise
     except Exception as e:
         print(f"Erro ao buscar cliente: {str(e)}")
         raise HTTPException(status_code=500, detail="Erro interno do servidor")
 
+
 # Endpoint para listar todos os agendamentos (para administração)
 @app.get("/agendamentos")
 async def listar_agendamentos(db: Session = Depends(get_db)):
     try:
         agendamentos = db.query(Agendamento).all()
-        
+
         return {
             "agendamentos": [
                 {
@@ -112,12 +121,12 @@ async def listar_agendamentos(db: Session = Depends(get_db)):
                     "contato": a.contato,
                     "horario": a.horario,
                     "barbeiro": a.barbeiro,
-                    "criado_em": a.criado_em.isoformat() if a.criado_em else None
+                    "criado_em": a.criado_em.isoformat() if a.criado_em else None,
                 }
                 for a in agendamentos
             ]
         }
-    
+
     except Exception as e:
         print(f"Erro ao listar agendamentos: {str(e)}")
         raise HTTPException(status_code=500, detail="Erro interno do servidor")
