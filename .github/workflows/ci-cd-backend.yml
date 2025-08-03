@@ -27,11 +27,11 @@ jobs:
         run: pip install --upgrade pip
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r requirements_cicd.txt
 
       - name: Run black --check .
         run: black --check .
-        working-directory: ./Chat-bot
+        working-directory: ./back-python
 
   backend-pylint:
     runs-on: ubuntu-latest
@@ -62,5 +62,5 @@ jobs:
         run: pip install -r requirements_cicd.txt
 
       - name: Run Pylint
-        run: pylint .//*.py
-        working-directory: ./Chat-bot
+        run: pylint *.py
+        working-directory: ./back-python
