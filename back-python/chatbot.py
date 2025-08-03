@@ -6,6 +6,8 @@ import re
 # Dicionário para armazenar o estado das conversas
 conversas = {}
 
+#leia me
+
 # Importa configurações
 from config import get_barbeiros, get_horarios_disponiveis, get_mensagem, VALIDACAO
 
