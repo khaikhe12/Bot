@@ -1,44 +1,4 @@
-from models import Agendamento, Cliente
-from sqlalchemy.orm import Session
-from datetime import datetime, timedelta
-import re
-
-# Dicionário para armazenar o estado das conversas
-conversas = {}
-
-# Importa configurações
-from config import get_barbeiros, get_horarios_disponiveis, get_mensagem, VALIDACAO
-
-# Lista de barbeiros disponíveis
-barbeiros = get_barbeiros()
-
-def limpar_numero(numero: str) -> str:
-    """Remove caracteres não numéricos do número de telefone"""
-    return re.sub(r'\D', '', numero)
-
-def get_or_create_cliente(db: Session, numero: str) -> Cliente:
-    """Busca ou cria um cliente pelo número de telefone"""
-    numero_limpo = limpar_numero(numero)
-    
-    # Busca cliente existente
-    cliente = db.query(Cliente).filter_by(numero=numero_limpo).first()
-    
-    if not cliente:
-        # Cria novo cliente automaticamente
-        cliente = Cliente(numero=numero_limpo, nome="Nome não informado")
-        db.add(cliente)
-        db.commit()
-        db.refresh(cliente)
-        print(f"Novo cliente criado: {numero_limpo}")
-    
-    return cliente
-
-def gerar_horarios_disponiveis(db: Session, barbeiro: str):
-    """Gera lista de horários disponíveis para um barbeiro"""
-    horarios = []
-    hoje = datetime.now()
-    horarios_disponiveis = get_horarios_disponiveis()
-    max_horarios = VALIDACAO["max_horarios_exibidos"]
+idos"]
     dias_futuros = VALIDACAO["dias_futuros"]
     
     for i in range(dias_futuros):  # Próximos dias
