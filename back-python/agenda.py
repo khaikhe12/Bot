@@ -11,7 +11,6 @@ from sqlalchemy.exc import SQLAlchemyError
 def listar_agendamentos():
     """Lista todos os agendamentos cadastrados"""
 
-    # Cria uma instância da sessão com o banco de dados
     db = SessionLocal()
 
     try:
@@ -36,7 +35,7 @@ def listar_agendamentos():
             print(
                 f"👤 Cliente: {cliente.nome if cliente and cliente.nome else 'Nome não informado'}"
             )
-
+#test
   
             print(f"📱 Contato: {agendamento.contato}")
             print(f"📅 Horário: {agendamento.horario}")
