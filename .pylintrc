@@ -22,15 +22,15 @@ extension-pkg-allow-list=
 
 # Desabilitar erros específicos (baseado no seu output)
 disable=
-    # Import errors (problemas de dependências não instaladas)
+# Import errors (problemas de dependências não instaladas)
 
-    # Documentation (se não quer ser obrigado a documentar tudo)
+# Documentation (se não quer ser obrigado a documentar tudo)
 
-    # Style/Convention (se não quer ser muito rigoroso com estilo)
-  
+# Style/Convention (se não quer ser muito rigoroso com estilo)
 
 
-    # Other common ones you might want to disable
+
+# Other common ones you might want to disable
       
 
 

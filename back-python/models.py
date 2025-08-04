@@ -1,3 +1,7 @@
+"""
+Modelos do banco de dados
+"""
+
 from sqlalchemy import Column, Integer, String, DateTime  # Tipos de dados das colunas
 from database import Base  # Importa a Base do arquivo database.py
 from datetime import datetime  # Usado para pegar a data/hora atual
