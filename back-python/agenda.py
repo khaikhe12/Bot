@@ -8,7 +8,6 @@ from database import SessionLocal
 from models import Agendamento, Cliente
 
 
-
 def listar_agendamentos():
     """Lista todos os agendamentos cadastrados"""
 
