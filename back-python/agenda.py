@@ -2,10 +2,11 @@
 """
 Script para visualizar agendamentos da barbearia
 """
+from sqlalchemy.exc import SQLAlchemyError
 
 from database import SessionLocal
 from models import Agendamento, Cliente
-from sqlalchemy.exc import SQLAlchemyError
+
 
 
 def listar_agendamentos():
@@ -35,8 +36,7 @@ def listar_agendamentos():
             print(
                 f"👤 Cliente: {cliente.nome if cliente and cliente.nome else 'Nome não informado'}"
             )
-#test
-  
+
             print(f"📱 Contato: {agendamento.contato}")
             print(f"📅 Horário: {agendamento.horario}")
             print(f"👨‍💼 Barbeiro: {agendamento.barbeiro}")
@@ -68,8 +68,6 @@ def listar_clientes():
         for cliente in clientes:
             # Busca agendamentos do cliente
             agendamentos = db.query(Agendamento).filter_by(cliente_id=cliente.id).all()
-            
-
             print(f"🆔 ID: {cliente.id}")
             print(f"👤 Nome: {cliente.nome}")
             print(f"📱 Número: {cliente.numero}")
