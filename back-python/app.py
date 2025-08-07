@@ -10,7 +10,7 @@ from fastapi import FastAPI, Depends, Request, HTTPException
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from typing import Optional
-from chatbot import processar_mensagem, limpar_numero
+from chatbot import limpar_numero, processar_mensagem
 
 
 # Importa a sessão do banco e o engine
@@ -19,8 +19,6 @@ from database import SessionLocal, engine
 # Importa os modelos para criar tabelas
 from models import Base, Agendamento, Cliente
 
-# Importa a função que processa as mensagens do chatbot
-from chatbot import processar_mensagem
 
 # Cria as tabelas no banco de dados (caso ainda não existam)
 Base.metadata.create_all(bind=engine)
