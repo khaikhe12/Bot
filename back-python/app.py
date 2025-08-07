@@ -58,11 +58,11 @@ Returns:
     try:
         # Valida se a mensagem não está vazia
         if not request.mensagem.strip():
-            raise HTTPException(status_code=400, detail="Mensagem não pode estar vazia") from e
+            raise HTTPException(status_code=400, detail="Mensagem não pode estar vazia")
 
         # Valida se o user_id não está vazio
         if not request.user_id.strip():
-            raise HTTPException(status_code=400, detail="User ID não pode estar vazio") from e
+            raise HTTPException(status_code=400, detail="User ID não pode estar vazio")
 
         # Processa a mensagem usando a lógica do chatbot
         resposta = processar_mensagem(request.mensagem, db, request.user_id)
@@ -101,7 +101,7 @@ async def obter_cliente(numero: str, db: Session = Depends(get_db)):
         cliente = db.query(Cliente).filter_by(numero=numero_limpo).first()
 
         if not cliente:
-            raise HTTPException(status_code=404, detail="Cliente não encontrado") from e
+            raise HTTPException(status_code=404, detail="Cliente não encontrado")
 
         # Busca agendamentos do cliente
         agendamentos = db.query(Agendamento).filter_by(cliente_id=cliente.id).all()
