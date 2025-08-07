@@ -1,0 +1,66 @@
+name: "CI/CD Backend"
+
+
+on: [push]
+
+jobs:
+  backend-black:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt', 'requirements_cicd.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Upgrade pip
+        run: pip install --upgrade pip
+
+      - name: Install dependencies
+        run: pip install -r requirements_cicd.txt
+
+      - name: Run black --check .
+        run: black --check .
+        working-directory: ./back-python
+
+  backend-pylint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt', 'requirements_cicd.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Upgrade pip
+        run: pip install --upgrade pip
+
+      - name: Install SANE dev libraries
+        run: sudo apt-get update && sudo apt-get install -y libsane-dev
+
+      - name: Install dependencies
+        run: pip install -r requirements_cicd.txt
+
+      - name: Run Pylint
+        run: pylint *.py
+        working-directory: ./back-python

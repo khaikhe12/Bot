@@ -1,0 +1,96 @@
+[MASTER]
+# Lista de plugins (não precisa especificar se não tem plugins extras)
+load-plugins=
+
+# Usar múltiplos processos para acelerar o pylint
+jobs=1
+
+# Arquivos ou diretórios para ignorar
+ignore=CVS,
+       .git,
+       _pycache_,
+       venv,
+       .venv,
+       build,
+       dist
+
+# Extensões de arquivo para analisar
+extension-pkg-allow-list=
+
+[MESSAGES CONTROL]
+# Desabilitar categorias inteiras de mensagens
+
+# Desabilitar erros específicos (baseado no seu output)
+disable=
+# Import errors (problemas de dependências não instaladas)
+
+# Documentation (se não quer ser obrigado a documentar tudo)
+
+# Style/Convention (se não quer ser muito rigoroso com estilo)
+
+
+
+# Other common ones you might want to disable
+      
+
+
+
+[REPORTS]
+# Relatórios de saída
+output-format=text
+reports=no
+score=yes
+
+[REFACTORING]
+# Número máximo de argumentos para function/method
+max-args=10
+
+# Número máximo de argumentos posicionais
+max-positional-arguments=10
+
+# Número máximo de atributos para uma classe
+max-attributes=10
+
+# Número máximo de variáveis locais para function/method
+max-locals=20
+
+# Número máximo de return/yield para function/method
+max-returns=6
+
+# Número máximo de branches para function/method
+max-branches=15
+
+# Número máximo de statements em function/method
+max-statements=60
+
+[FORMAT]
+# Número máximo de caracteres em uma linha
+max-line-length=120
+
+# Regex para nomes de constantes válidos
+const-rgx=(([A-Z_][A-Z0-9_])|(.))$
+
+# Regex para nomes de classes válidos
+class-rgx=[A-Z_][a-zA-Z0-9]+$
+
+# Regex para nomes de funções válidos
+function-rgx=[a-z_][a-z0-9_]{2,30}$
+
+# Regex para nomes de métodos válidos
+method-rgx=[a-z_][a-z0-9_]{2,30}$
+
+# Regex para nomes de atributos válidos
+attr-rgx=[a-z_][a-z0-9_]{2,30}$
+
+# Regex para nomes de argumentos válidos
+argument-rgx=[a-z_][a-z0-9_]{2,30}$
+
+# Regex para nomes de variáveis válidos
+variable-rgx=[a-z_][a-z0-9_]{2,30}$
+
+[DESIGN]
+# Número mínimo de métodos públicos para uma classe
+min-public-methods=1
+
+[TYPECHECK]
+generated-members=cv2.*
