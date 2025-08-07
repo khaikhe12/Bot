@@ -1,3 +1,11 @@
+"""
+Módulo principal da API.
+Define os endpoints de comunicação com o cliente, gerenciamento de agendamentos
+e acesso a informações dos clientes. Utiliza SQLAlchemy para persistência,
+e integra a lógica do chatbot para processar mensagens recebidas.
+"""
+
+
 from fastapi import FastAPI, Depends, Request, HTTPException
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
@@ -21,6 +29,7 @@ app = FastAPI(title="Chatbot Barbearia", version="1.0.0")
 
 # Modelo Pydantic para validação de entrada
 class MensagemRequest(BaseModel):
+    """Validação das mensagens enviadas pelo cliente."""
     mensagem: str
     user_id: str
 

@@ -64,13 +64,13 @@ def gerar_horarios_disponiveis(db: Session, barbeiro: str):
 def processar_mensagem(mensagem: str, db: Session, user_id: str):
     """Função principal que processa as mensagens do chatbot"""
 
-    # Limpa o número do usuário
+    
     numero_limpo = limpar_numero(user_id)
 
-    # Busca ou cria o cliente automaticamente
+   
     cliente = get_or_create_cliente(db, numero_limpo)
 
-    # Se o usuário não tem conversa ativa, inicializa
+
     if numero_limpo not in conversas:
         conversas[numero_limpo] = {
             "estado": "menu_principal",
@@ -78,18 +78,18 @@ def processar_mensagem(mensagem: str, db: Session, user_id: str):
             "cliente_id": cliente.id,
         }
 
-        # Se o cliente já tem nome, mostra menu personalizado
+        
         if cliente.nome and cliente.nome != "Nome não informado":
             return get_mensagem("boas_vindas_retorno", nome=cliente.nome)
         else:
-            # Cliente novo, pede o nome
+            
             conversas[numero_limpo]["estado"] = "aguardando_nome"
             return get_mensagem("boas_vindas")
 
-    # Obtém o estado atual da conversa
+  
     estado = conversas[numero_limpo]["estado"]
 
-    # Processa mensagem baseado no estado
+   
     if estado == "menu_principal":
         return processar_menu_principal(mensagem, numero_limpo, db)
 
