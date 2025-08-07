@@ -36,6 +36,7 @@ class MensagemRequest(BaseModel):
 
 # Função para obter a sessão com o banco
 def get_db():
+    """Cria uma sessão com o banco de dados e garante seu fechamento após o uso."""
     db = SessionLocal()
     try:
         yield db
@@ -46,6 +47,14 @@ def get_db():
 # Endpoint para receber mensagens do cliente (via POST)
 @app.post("/mensagem")
 async def responder_mensagem(request: MensagemRequest, db: Session = Depends(get_db)):
+    """
+    Processa a mensagem recebida do cliente e retorna a resposta do chatbot.
+Args:
+        request (MensagemRequest): Dados da mensagem enviada pelo cliente.
+        db (Session): Sessão ativa com o banco de dados.
+Returns:
+        dict: Resposta do chatbot com status.
+    """
     try:
         # Valida se a mensagem não está vazia
         if not request.mensagem.strip():
@@ -64,18 +73,27 @@ async def responder_mensagem(request: MensagemRequest, db: Session = Depends(get
     except Exception as e:
         # Log do erro para debug
         print(f"Erro ao processar mensagem: {str(e)}")
-        raise HTTPException(status_code=500, detail="Erro interno do servidor")
+        raise HTTPException(status_code=500, detail="Erro interno do servidor") from e
 
 
 # Endpoint para verificar status da API
 @app.get("/")
 async def root():
+    """Endpoint de verificação para confirmar se a API está online."""
     return {"message": "Chatbot Barbearia API está funcionando!", "status": "online"}
 
 
 # Endpoint para obter informações de um cliente
 @app.get("/cliente/{numero}")
 async def obter_cliente(numero: str, db: Session = Depends(get_db)):
+    """
+    Busca informações de um cliente pelo número de telefone e seus agendamentos.
+ Args:
+        numero (str): Número do cliente.
+        db (Session): Sessão ativa com o banco de dados.
+ Returns:
+        dict: Dados do cliente e seus agendamentos.
+    """
     try:
         from chatbot import limpar_numero
 
